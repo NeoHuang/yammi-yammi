@@ -30,31 +30,34 @@ function __autoload($className) {
 }
 function callHook() {
     global $url;
- 
     $urlArray = array();
     $urlArray = explode("/",$url);
- 
-    $controller = $urlArray[0];
-    array_shift($urlArray);
-    $action = $urlArray[0];
-    array_shift($urlArray);
-    $queryString = $urlArray;
- 
-    $controllerName = $controller;
-    $controller = ucwords($controller);
-    $model = rtrim($controller, 's');
-    $controller .= 'Controller';
-    $dispatch = new $controller($model,$controllerName,$action);
- 
-    if ((int)method_exists($controller, $action)) {
-        call_user_func_array(array($dispatch,$action),$queryString);
-    } else {
-        /* Error Generation Code Here */
+    if (sizeof($urlArray) >= 2){
+        $controller = $urlArray[0];
+        array_shift($urlArray);
+        $action = $urlArray[0];
+        array_shift($urlArray);
+        $queryString = $urlArray;
+
+        $controllerName = $controller;
+        $controller = ucwords($controller);
+        $model = rtrim($controller, 's');
+        $controller .= 'Controller';
+        
+        $dispatch = new $controller($model,$controllerName,$action);
+
+        if ((int)method_exists($controller, $action)) {
+            call_user_func_array(array($dispatch,$action),$queryString);
+        } else {
+            /* Error Generation Code Here */
+        }
+
     }
+    
+    
 }
 
 setReporting();
-var_dump($_GET);
 if (isset($_GET['url']))
 {
     $url = $_GET['url'];
@@ -62,5 +65,6 @@ if (isset($_GET['url']))
 else{
    $url = '';
 }
+callHook();
 //$url = $_GET['url'];
 //echo $url;
