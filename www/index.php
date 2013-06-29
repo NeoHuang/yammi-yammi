@@ -7,4 +7,6 @@ if (version_compare(PHP_VERSION, '5.3.1', '<'))
 
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', dirname(__FILE__));
-require_once (ROOT . DS . 'framework' . DS . 'bootstrap.php');
+require_once (ROOT . DS . 'framework' . DS . 'YBootstrap.php');
+
+

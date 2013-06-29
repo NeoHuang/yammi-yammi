@@ -6,13 +6,14 @@
  */
 
 /**
- * Description of config
+ * Description of YFactory
  *
  * @author root
  */
-class Config {
-    static $develop_environment = true;
-    static $application_folder = 'application';
+class YFactory {
+    static function createApp(){
+        return new YApplication();
+    }
 }
 
 ?>
