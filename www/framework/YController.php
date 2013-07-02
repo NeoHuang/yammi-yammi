@@ -10,8 +10,8 @@
  *
  * @author root
  */
-class YController {
-    //put your code here
+abstract class YController {
+    abstract public function actionIndex($queryString);
 }
 
 ?>

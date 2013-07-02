@@ -6,14 +6,12 @@
  */
 
 /**
- * Description of YFactory
+ * Description of YWidget
  *
  * @author root
  */
-class YFactory {
-    static function createApp($url){
-        return new YApplication($url);
-    }
+class YWidget {
+    //put your code here
 }
 
 ?>

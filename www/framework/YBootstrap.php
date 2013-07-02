@@ -37,7 +37,12 @@ class YBootstrap{
     static protected $app;
     static function getApplication(){
         if (self::$app == null){
-            self::$app = YFactory::createApp();
+            $url = '';
+            if (isset($_GET['url']))
+            {
+                $url = $_GET['url'];
+            }
+            self::$app = YFactory::createApp($url);
         }
         return self::$app;
     }

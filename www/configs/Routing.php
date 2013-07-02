@@ -11,8 +11,11 @@
  * @author root
  */
 class Routing {
-    static public $controller = array(
+    static public $controllers = array(
         ''=>'HomeController'
+    );
+    static public $actions = array(
+        ''=>'actionIndex'
     );
 }
 
