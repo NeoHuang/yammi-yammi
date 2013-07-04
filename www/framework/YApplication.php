@@ -69,6 +69,12 @@ class YApplication {
     function softRedirect($controlName, $actionName, $queryString){
         $this->execute($controlName, $actionName, $queryString);
     }
+    function getFullPath($relativePath){
+        return $this->root . DS . Config::$application_folder . DS . $relativePath;
+    }
+    function getViewPath($viewRelPath){
+        return $this->root . DS . Config::$view_folder . DS . $viewRelPath . '.php';
+    }
 }
 
 ?>

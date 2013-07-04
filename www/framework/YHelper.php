@@ -28,6 +28,13 @@ class YHelper {
         else 
             self::redirect('error');
     }
+    static function extract($data){
+        if(is_array($data))
+        {
+            extract($data);
+          //  echo $content;
+        }
+    }
 }
 
 ?>

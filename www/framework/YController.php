@@ -12,7 +12,10 @@
  */
 abstract class YController {
     abstract public function actionIndex($queryString);
-    public function render($mainWidget){
+
+    public function render($mainWidget, $layout,  $data = array()){
+        $view = new YWidget($mainWidget, $layout);
+        $view->render($data);
 
     }
 }

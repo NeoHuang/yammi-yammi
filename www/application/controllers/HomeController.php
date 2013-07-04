@@ -11,12 +11,10 @@
  * @author root
  */
 class HomeController extends YController {
-    public function prepareModel(){
-        
-    }
+
     public function actionIndex($queryString)
     {
-        echo 'Hello World ';
+       /* echo 'Hello World ';
         if (is_array($queryString)){
             $count = count($queryString);
            
@@ -27,9 +25,11 @@ class HomeController extends YController {
         }
         else {
             echo $queryString;
-        }
+        }*/
+        $this->render('HomeView', 'MainLayout');
 		
     }
+    
 }
 
 ?>

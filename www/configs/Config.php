@@ -11,9 +11,10 @@
  * @author root
  */
 class Config {
-    static $develop_environment     = false;
+    static $develop_environment     = true;
     static $domain                  = 'http://localhost/';
     static $application_folder      = 'application';
+    static $view_folder             = 'application/views';
 }
 
 ?>
