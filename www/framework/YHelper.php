@@ -18,13 +18,15 @@ class YHelper {
     }
     static function error404(){
         
-        echo "404 Not Found";
-        die();
+        YBootstrap::getApplication()->softRedirect('ErrorController', 'actionIndex', array(''));
     }
     static function internalError($msg){
        if (Config::$develop_environment){
-            die($msg);
+           echo $msg;
+           die();
         }
+        else 
+            self::redirect('error');
     }
 }
 

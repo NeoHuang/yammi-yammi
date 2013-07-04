@@ -12,6 +12,9 @@
  */
 abstract class YController {
     abstract public function actionIndex($queryString);
+    public function render($mainWidget){
+
+    }
 }
 
 ?>

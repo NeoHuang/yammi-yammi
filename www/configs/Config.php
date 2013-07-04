@@ -11,7 +11,7 @@
  * @author root
  */
 class Config {
-    static $develop_environment     = true;
+    static $develop_environment     = false;
     static $domain                  = 'http://localhost/';
     static $application_folder      = 'application';
 }

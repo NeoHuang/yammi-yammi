@@ -12,6 +12,13 @@
  */
 class YWidget {
     //put your code here
+    public $id = '';
+    public $class = '';
+    public $children = array();
+    public function render()
+    {
+        
+    }
 }
 
 ?>

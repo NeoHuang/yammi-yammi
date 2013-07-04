@@ -14,27 +14,26 @@ class YApplication {
     protected $url;
     protected $controller;
     protected $actionName;
+    protected $root;
     function __construct($url) {
         $this->url = $url;
+        $this->root = ROOT;
         require_once (ROOT. DS. 'language'. DS . 'lang_en.php');
         
     }
 
     function run(){
         $controllerName = '';
-        $this->actionName = '';
+        $actionName = '';
         $queryString = array('');
         
         $urlArray = array();
         $urlArray = explode("/",$this->url);
         $controllerName = $urlArray[0];
-        if ($controllerName == 'error'){
-            echo Language::$MSG_404;
-            return;
-        }
+  
         if (sizeof($urlArray) >= 2){               
             array_shift($urlArray);
-            $this->actionName = $urlArray[0];
+            $actionName = $urlArray[0];
             array_shift($urlArray);
             $queryString = $urlArray;
 
@@ -46,22 +45,29 @@ class YApplication {
         else{
             $controllerName = ucwords($controllerName) . 'Controller';
         }
-        if (array_key_exists($this->actionName, Routing::$actions)){
-            $this->actionName = Routing::$actions[$this->actionName];
+        if (array_key_exists($actionName, Routing::$actions)){
+            $actionName = Routing::$actions[$actionName];
             
         }
         else
         {
-           $this->actionName = 'action'. ucwords(strtolower($this->actionName));
+           $actionName = 'action'. ucwords(strtolower($actionName));
         }
-          
-        $this->controller = new $controllerName($this->actionName);
-
-        if ((int)method_exists($this->controller, $this->actionName)) {
-            call_user_func_array(array($this->controller,$this->actionName),array($queryString));
+        $this->execute($controllerName, $actionName, array($queryString));  
+        
+    }
+    function execute($controlName, $actionName, $queryString){
+        
+        $this->controller = new $controlName($actionName);
+        $this->actionName = $actionName;
+        if ((int)method_exists($this->controller, $actionName)) {
+            call_user_func_array(array($this->controller,$actionName),$queryString);
         } else {
             YHelper::error404();
         }
+    }
+    function softRedirect($controlName, $actionName, $queryString){
+        $this->execute($controlName, $actionName, $queryString);
     }
 }
 

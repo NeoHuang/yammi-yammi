@@ -11,6 +11,9 @@
  * @author root
  */
 class HomeController extends YController {
+    public function prepareModel(){
+        
+    }
     public function actionIndex($queryString)
     {
         echo 'Hello World ';
