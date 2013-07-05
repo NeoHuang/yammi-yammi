@@ -49,7 +49,6 @@ class YBootstrap{
     
     
 }
-var_dump($_GET);
 YBootstrap::getApplication()->run();
 
 

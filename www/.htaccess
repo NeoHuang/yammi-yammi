@@ -10,3 +10,4 @@ RewriteRule (.*) index.php?url=$1 [QSA,NC,L]
  
 </IfModule>
 Options -Indexes 
+ErrorDocument 403 /error

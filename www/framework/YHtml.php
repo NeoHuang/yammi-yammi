@@ -27,7 +27,7 @@ class YHtml {
     }
     public static function cssFile($url)
     {
-	return '<link rel="stylesheet" type="text/css" href="'.self::encode($url).'" />';
+	return '<link rel="stylesheet" type="text/css" href="'. Config::$domain. DS . Config::$css_folder . DS . self::encode($url).'" />';
     }
     public static function scriptFile($url)
     {

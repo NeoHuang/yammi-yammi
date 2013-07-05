@@ -1,9 +1,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<?php echo YHtml::cssFile(Config::$application_folder . DS . 'css' . DS . 'master.css') ?>
-<?php echo YHtml::cssFile(Config::$application_folder . DS . 'css' . DS . 'header.css') ?>
-<?php echo YHtml::cssFile(Config::$application_folder . DS . 'css' . DS . 'menu.css') ?>
+<?php echo YHtml::cssFile('master.css') ?>
+<?php echo YHtml::cssFile('header.css') ?>
+<?php echo YHtml::cssFile('menu.css') ?>
 
 </head>
 <body>
