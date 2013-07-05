@@ -33,12 +33,12 @@
 					</div>
 					<div class="menu_card">
 							
-								<img src="img/tatar.jpg" />
+                                            <a href="http://localhost:8080/application/img/tatar.jpg"><img src="http://localhost:8080/application/img/tatar.jpg" /></a>
 							
 					</div>
 					<div class="menu_card">
 							
-							<img src="img/salad.jpg" />
+							<a href="http://localhost:8080/application/img/salad.jpg"><img src="http://localhost:8080/application/img/salad.jpg" /></a>
 							
 					</div>
 					<div class="menu_card">

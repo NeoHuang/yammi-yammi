@@ -46,9 +46,12 @@ text-align: center;
 }
 .menu_card img{
 	width: 180;
-	border-bottom: 1px solid #ccc;
+	
 	padding-bottom: 15px;
 	margin-bottom: 5px;
+}
+.menu_card a{
+    border-bottom: 1px solid #ccc;
 }
 .menu_card p {
 	font: 12px/18px Arial, sans-serif;
