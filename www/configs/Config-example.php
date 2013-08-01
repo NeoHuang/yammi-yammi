@@ -18,6 +18,12 @@ class Config {
     static $view_folder             = 'application/views';
     static $media_server            = 'http://localhost:8080/';
     static $css_folder              = 'application/css';
+    
+    //DB settings
+    static $db_host                 = 'localhost';
+    static $db_user                 = 'root';
+    static $db_password             = 'i23456';
+    static $db_name                 = 'test';
 }
 
 ?>
