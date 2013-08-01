@@ -14,6 +14,11 @@ class YFactory {
     static function createApp($url){
         return new YApplication($url);
     }
+    static function createDb($db_host, $db_user, $db_password, $db_Name){
+        $db = new YDbConnection($db_host, $db_user, $db_password, $db_Name);
+        $db->connect();
+        return $db;
+    }
 }
 
 ?>
