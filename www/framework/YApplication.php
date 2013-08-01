@@ -15,14 +15,22 @@ class YApplication {
     protected $controller;
     protected $actionName;
     protected $root;
+    static protected $db;
     function __construct($url) {
         $this->url = $url;
         $this->root = ROOT;
         require_once (ROOT. DS. 'language'. DS . 'lang_en.php');
         
     }
-
+    function getDb(){
+        if (self::$db == null){
+            
+            self::$db = YFactory::createDb(Config::$db_host, Config::$db_user, Config::$db_password, Config::$db_name);
+        }
+        return self::$db;
+    }
     function run(){
+        $this->getDb();
         $controllerName = '';
         $actionName = '';
         $queryString = array('');
