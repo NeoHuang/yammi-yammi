@@ -7,13 +7,23 @@ class YModel{
         $this->db = YBootstrap::getApplication()->getDb();
     }
     function insert(){
-        if (!is_null($this->db) && $this->db->isReady()){
-            $query = $this->getInsertQuery($this->tableMap);
+        if (!is_null($this->db) && $this->db->isReady() && $this->checkForInsert()){
+            $queryTable = array();
+            foreach ($this->tableMap as $m=>$f){
+                $queryTable[$f] = $this->$m;
+            }
+            $query = $this->getInsertQuery($queryTable);
             return $this->db->query($query);
         }
-        return null;
-        
-        
+        return null;      
+    }
+    function find($data){
+       // $query = 'SELECT * FROM'. Config::$table_prefix . $this->tableName . ' '
+    }
+    function initVariable(){
+        foreach($this->tableMap as $m=>$f){
+            $this->$m = null;
+        }
     }
     function getInsertQuery($data){
         $query = 'INSERT INTO ' . Config::$table_prefix . $this->tableName . ' ';
@@ -30,6 +40,9 @@ class YModel{
         $values = substr($values, 0, -1);
         $query .= "($columns) VALUES ($values)";
         return $query;
+    }
+    function checkForInsert(){
+        return true;
     }
 }
 /*

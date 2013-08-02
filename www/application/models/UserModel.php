@@ -12,24 +12,19 @@
  */
 class UserModel extends YModel{
     //put your code here
-    public $uid;
-    public $name;
-    public $password;
-    public $nick;
-    public $email;
-    public $registeredDateTime;
-    public $activationKey;
-    public $type;
-    public $status;
     
 
     
     function __construct() {
         parent::__construct();
         $this->tableName = 'users';
-        $this->tableMap = array('user_id' => &$this->uid,
-                             'user_name' => &$this->name,
-                             'user_password' => &$this->password);
+        $this->tableMap = array('uid' => 'user_id',
+                                'name' => 'user_name',
+                                'password' => 'user_password',
+                                'nick' => 'user_nick',
+                                'email'=> 'user_email',
+                                'register' => 'user_registered');
+        $this->initVariable();
     }
     
 }
