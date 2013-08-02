@@ -97,7 +97,7 @@ class YDbConnection {
 
 
         // If there is an error then take note of it..
-        if ($this->lastError =  mysqli_connect_error()) {
+        if ($this->lastError =  $this->dbObj->error) {
             
             return false;
         }
@@ -112,7 +112,7 @@ class YDbConnection {
             $return_val = $this->rowsAffected;
         } else {
             $num_rows = 0;
-            while ($row = @$this->dbObj->fetch_object($this->result)) {
+            while ($row = $this->result->fetch_object()) {
                 $this->lastResult[$num_rows] = $row;
                 $num_rows++;
             }

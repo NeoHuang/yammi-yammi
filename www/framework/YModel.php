@@ -17,8 +17,23 @@ class YModel{
         }
         return null;      
     }
-    function find($data){
-       // $query = 'SELECT * FROM'. Config::$table_prefix . $this->tableName . ' '
+    function load($id){
+        if (!is_null($this->db) && $this->db->isReady()){
+            if (array_key_exists('id', $this->tableMap)){
+            $query = 'SELECT * FROM '. Config::$table_prefix . $this->tableName . 
+                " WHERE  ". $this->tableMap['id'] . " ='$id' LIMIT 1";
+            $ret = $this->db->query($query);
+            if ($ret > 0){
+                $obj = $this->db->lastResult[0];
+                foreach($this->tableMap as $m=>$f){
+                    $this->$m = $obj->$f;
+                }
+            }
+            
+            }
+        }
+        
+        
     }
     function initVariable(){
         foreach($this->tableMap as $m=>$f){

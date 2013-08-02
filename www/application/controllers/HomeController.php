@@ -17,10 +17,9 @@ class HomeController extends YController {
         
         $db = YBootstrap::getApplication()->getDb();
         $user = new UserModel();
-        $user->name = 'neohuang';
-        $user->password = '123456';
-        $ret = $user->insert();
-        $this->render('HomeView', 'MainLayout', array('test'=>"userid = $ret"));
+        $user->load(6);
+       // $ret = $user->insert();
+        $this->render('HomeView', 'MainLayout', array('test'=>"userid = $user->name"));
 		
     }
     
