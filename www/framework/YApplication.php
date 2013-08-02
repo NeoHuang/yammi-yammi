@@ -30,7 +30,6 @@ class YApplication {
         return self::$db;
     }
     function run(){
-        $this->getDb();
         $controllerName = '';
         $actionName = '';
         $queryString = array('');

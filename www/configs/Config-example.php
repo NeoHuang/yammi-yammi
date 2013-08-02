@@ -24,6 +24,7 @@ class Config {
     static $db_user                 = 'root';
     static $db_password             = 'i23456';
     static $db_name                 = 'test';
+    static $table_prefix            = 'yy_';
 }
 
 ?>

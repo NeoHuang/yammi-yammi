@@ -18,6 +18,9 @@ abstract class YController {
         $view->render($data);
 
     }
+    public function runWidget($className, $data = null, $return){
+        $widget = new $className();
+    }
 }
 
 ?>

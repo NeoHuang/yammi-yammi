@@ -19,6 +19,7 @@
 	</div>
 </div>
 <div class="wrapper content">
+    <?php echo $content ?>
 	<div class="menu">
 		<ul>
 			<li class="menu_section">

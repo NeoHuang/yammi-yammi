@@ -12,9 +12,11 @@
  */
 class YWidget {
     //put your code here
-    protected $viewFile = '';
-    protected $layout = null;
-    public function __construct($viewFile, $layout = null) {
+    public $class = '';
+    public $id = '';
+    public $viewFile = '';
+    public $layout = null;
+    public function __construct($viewFile = '', $layout = null) {
         $this->viewFile = $viewFile;
         if ($layout !== null){
                 if (is_a($layout, 'YWidget')){
@@ -48,7 +50,7 @@ class YWidget {
     }
     protected function renderInternal($data = null, $return = false){
         $fullViewFile = YBootstrap::getApplication()->getViewPath($this->viewFile);
-        if (is_array($data)){
+        if ($data !== null && is_array($data)){
             extract($data);
         }
         if (file_exists($fullViewFile)){

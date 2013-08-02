@@ -14,8 +14,13 @@ class HomeController extends YController {
 
     public function actionIndex($queryString)
     {
-
-        $this->render('HomeView', 'MainLayout');
+        
+        $db = YBootstrap::getApplication()->getDb();
+        $user = new UserModel();
+        $user->name = 'neohuang';
+        $user->password = '123456';
+        $ret = $user->insert();
+        $this->render('HomeView', 'MainLayout', array('test'=>"userid = $ret"));
 		
     }
     
