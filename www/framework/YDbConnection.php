@@ -16,6 +16,8 @@ class YDbConnection {
     public $username;
     public $password;
     public $dbName;
+    
+    public $preparedQuery;
     public $lastQuery = '';
     public $numQueries = 0;
     public $lastError;
@@ -78,10 +80,14 @@ class YDbConnection {
         if ( is_resource( $this->result ) )
                 mysql_free_result( $this->result );
     }
-
-    function query($query, $param = array()) {
+    
+    function query($query = null) {
+       
         if (!$this->ready)
             return false;
+        if (!isset($query)){
+            $query = $this->preparedQuery;
+        }
         $return_val = 0;
         flush();
         $this->last_query = $query;
@@ -121,6 +127,47 @@ class YDbConnection {
         }
 
         return $return_val;
+    }
+    
+    function prepareInsertQuery($table, $data){
+        $query = 'INSERT INTO ' . $table . ' ';
+        $columns = '';
+        $values = '';
+        foreach ($data as $key => $value) {
+            if (!is_null($value)){
+                $columns .= "$key,";
+                $values  .= "'$value',";
+            }
+           
+        }
+        $columns = substr($columns, 0, -1);
+        $values = substr($values, 0, -1);
+        $query .= "($columns) VALUES ($values)";
+        $this->preparedQuery = $query;
+        return $query;
+    }
+    function prepareLoadOne($table, $whereData){
+        $query = 'SELECT * FROM '. $table . $this->where($whereData);
+        $this->preparedQuery = $query;
+        return $query;
+                
+    }
+    function where($whereData){
+        
+        if (is_array($whereData)){
+            $query = " WHERE ";
+            $numItems = count($whereData);
+            $i = 0;
+            foreach($whereData as $key=>$value){
+                $query .= "$key='$value'";
+                if(++$i !== $numItems) {
+                $query .= " AND ";
+              }
+            }
+            
+            return $query;
+        }
+        return '';
     }
 
 }
