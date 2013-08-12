@@ -11,12 +11,19 @@
  * @author root
  */
 class Routing {
+
     static public $controllers = array(
-        ''=>'HomeController'
+        '' => 'HomeController',
+        'Member' => 'MemberController'
     );
     static public $actions = array(
-        ''=>'actionIndex'
+        '' => 'actionIndex',
+        'Login' => 'loginAction',
+        'Register' => 'registerAction',
+        'CheckUserName' => 'checkUsernameAction',
+        'CheckEmail' => 'checkEmailAction'
     );
+
 }
 
 ?>

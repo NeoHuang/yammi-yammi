@@ -16,7 +16,6 @@ class YDbConnection {
     public $username;
     public $password;
     public $dbName;
-    
     public $preparedQuery;
     public $lastQuery = '';
     public $numQueries = 0;
@@ -73,44 +72,44 @@ class YDbConnection {
 
         return $data;
     }
-    function flush(){
+
+    function flush() {
         $this->lastResult = array();
-	$this->lastQuery  = null;
+        $this->lastQuery = null;
         $this->insertId = -1;
-        if ( is_resource( $this->result ) )
-                mysql_free_result( $this->result );
+        if (is_resource($this->result))
+            mysql_free_result($this->result);
     }
-    
+
     function query($query = null) {
-       
+
         if (!$this->ready)
             return false;
-        if (!isset($query)){
+        if (!isset($query)) {
             $query = $this->preparedQuery;
         }
         $return_val = 0;
         flush();
         $this->last_query = $query;
-        echo $query;
-        if (Config::$develop_environment)
-        {
+        //echo $query;
+        //echo "<BR>";
+        if (Config::$develop_environment) {
             $this->result = $this->dbObj->query($query);
-        }
-        else{
+        } else {
             $this->result = @$this->dbObj->query($query);
         }
         $this->numQueries++;
 
 
         // If there is an error then take note of it..
-        if ($this->lastError =  $this->dbObj->error) {
-            
+        if ($this->lastError = $this->dbObj->error) {
             return false;
         }
 
         if (preg_match('/^\s*(create|alter|truncate|drop)\s/i', $query)) {
             $return_val = $this->result;
         } elseif (preg_match('/^\s*(insert|delete|update|replace)\s/i', $query)) {
+
             $this->rowsAffected = $this->dbObj->affected_rows;
             if (preg_match('/^\s*(insert|replace)\s/i', $query)) {
                 $this->insertId = $this->dbObj->insert_id;
@@ -125,20 +124,18 @@ class YDbConnection {
             $this->numRows = $num_rows;
             $return_val = $num_rows;
         }
-
         return $return_val;
     }
-    
-    function prepareInsertQuery($table, $data){
+
+    function prepareInsertQuery($table, $data) {
         $query = 'INSERT INTO ' . $table . ' ';
         $columns = '';
         $values = '';
         foreach ($data as $key => $value) {
-            if (!is_null($value)){
+            if (!is_null($value)) {
                 $columns .= "$key,";
-                $values  .= "'$value',";
+                $values .= "'$value',";
             }
-           
         }
         $columns = substr($columns, 0, -1);
         $values = substr($values, 0, -1);
@@ -146,25 +143,26 @@ class YDbConnection {
         $this->preparedQuery = $query;
         return $query;
     }
-    function prepareLoadOne($table, $whereData){
-        $query = 'SELECT * FROM '. $table . $this->where($whereData);
+
+    function prepareLoadOne($table, $whereData) {
+        $query = 'SELECT * FROM ' . $table . $this->where($whereData);
         $this->preparedQuery = $query;
         return $query;
-                
     }
-    function where($whereData){
-        
-        if (is_array($whereData)){
+
+    function where($whereData) {
+
+        if (is_array($whereData)) {
             $query = " WHERE ";
             $numItems = count($whereData);
             $i = 0;
-            foreach($whereData as $key=>$value){
+            foreach ($whereData as $key => $value) {
                 $query .= "$key='$value'";
-                if(++$i !== $numItems) {
-                $query .= " AND ";
-              }
+                if (++$i !== $numItems) {
+                    $query .= " AND ";
+                }
             }
-            
+
             return $query;
         }
         return '';

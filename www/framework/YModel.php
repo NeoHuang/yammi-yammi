@@ -1,52 +1,65 @@
 <?php
-class YModel{
+
+class YModel {
+
     protected $db;
     protected $tableName;
     public $tableMap;
-    function getTableName(){
+
+    function getTableName() {
         return Config::$table_prefix . $this->tableName;
     }
+
     function __construct() {
         $this->db = YBootstrap::getApplication()->getDb();
     }
-    function insert(){
-        if (!is_null($this->db) && $this->db->isReady() && $this->checkForInsert()){
+
+    function insert() {
+        if (!is_null($this->db) && $this->db->isReady() && $this->checkForInsert()) {
             $queryTable = array();
-            foreach ($this->tableMap as $m=>$f){
+            foreach ($this->tableMap as $m => $f) {
                 $queryTable[$f] = $this->$m;
             }
             $this->db->prepareInsertQuery($this->getTableName(), $queryTable);
             return $this->db->query();
         }
-        return null;      
+        return null;
     }
-    function load($id){
-        if (!is_null($this->db) && $this->db->isReady()){
-            if (array_key_exists('id', $this->tableMap)){
-            $this->db->prepareLoadOne($this->getTableName(), array($this->tableMap['id']=>$id));
-            $ret = $this->db->query();
-            if ($ret > 0){
-                $obj = $this->db->lastResult[0];
-                foreach($this->tableMap as $m=>$f){
-                    $this->$m = $obj->$f;
+
+    function load($id) {
+        if (!is_null($this->db) && $this->db->isReady()) {
+            if (array_key_exists('id', $this->tableMap)) {
+                $this->db->prepareLoadOne($this->getTableName(), array($this->tableMap['id'] => $id));
+                $ret = $this->db->query();
+                if ($ret > 0) {
+                    $obj = $this->db->lastResult[0];
+                    foreach ($this->tableMap as $m => $f) {
+                        $this->$m = $obj->$f;
+                    }
                 }
             }
-            
-            }
         }
-        
-        
     }
-    function initVariable(){
-        foreach($this->tableMap as $m=>$f){
+
+    function initVariable() {
+        foreach ($this->tableMap as $m => $f) {
             $this->$m = null;
         }
     }
-    
-    function checkForInsert(){
+
+    function setVariable($varArray) {
+        foreach ($this->tableMap as $m => $f) {
+            if (array_key_exists($m, $varArray))
+                $this->$m = $varArray[$m];
+        }
+    }
+
+    function checkForInsert() {
         return true;
     }
+
 }
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
