@@ -14,7 +14,7 @@ class Config {
 
     static $develop_environment = true;
     //static $domain = 'http://localhost/git/yammi-yammi/www';
-    static $domain = 'http://localhost:8080/';
+    static $domain = 'http://localhost';
     static $application_folder = 'application';
     static $view_folder = 'application/views';
     static $media_server = '';

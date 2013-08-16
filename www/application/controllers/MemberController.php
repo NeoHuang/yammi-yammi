@@ -57,6 +57,12 @@ class MemberController extends YController {
         }
     }
 
+    public function logoutAction($queryString) {
+        session_destroy();
+
+        $this->render('HomeView', 'MainLayout', null);
+    }
+
     public function registerAction($queryString) {
         if (array_key_exists("reg", $_POST)) {
             $user = new UserModel();

@@ -19,6 +19,7 @@ class Routing {
     static public $actions = array(
         '' => 'actionIndex',
         'Login' => 'loginAction',
+        'Logout' => 'logoutAction',
         'Register' => 'registerAction',
         'CheckUserName' => 'checkUsernameAction',
         'CheckEmail' => 'checkEmailAction'
