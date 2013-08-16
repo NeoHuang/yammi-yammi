@@ -18,6 +18,7 @@ class Config {
     static $view_folder             = 'application/views';
     static $media_server            = 'http://localhost:8080/';
     static $css_folder              = 'application/css';
+    static $auto_folders            = array('controllers', 'models', 'views', 'widgets');
     
     //DB settings
     static $db_host                 = 'localhost';
