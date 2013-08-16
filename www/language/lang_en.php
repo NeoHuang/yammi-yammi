@@ -10,5 +10,6 @@ class Language{
     public static $RESTAURANTS = 'Restaurants';
     public static $ABOUT       = 'About';
     public static $FOOD    = 'Food';
+    public static $PRICE   = 'Price';
 }
 ?>

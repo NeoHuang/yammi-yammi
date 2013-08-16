@@ -60,3 +60,13 @@ text-align: center;
 	word-wrap: break-word;
 	max-width:180px;
 }
+.menu_card div {
+	font: 16px/20px Arial, sans-serif;
+        font-weight: bold;
+        text-align: left;
+	color: #333;
+	margin-top: 0;
+        margin-bottom: 5;
+	word-wrap: break-word;
+	max-width:180px;
+}

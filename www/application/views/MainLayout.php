@@ -22,6 +22,14 @@
 			<li class="menu_section">
 				<div class="section_title"><a>Vorspeise</a></div>
 				<div class="columns_container">
+                                    <?php 
+                                        $dish = new DishModel();
+                                        $dish->name = "Spring Roll";
+                                        $dish->thumbnail = "http://localhost:8080/application/img/tatar.jpg";
+                                        $dish->description = "this is Spring Roll";
+                                        $dish->price = "3.2";
+                                        $dishWidget = new MenuCardWidget($dish);
+                                        $dishWidget->render();?>
 					<div class="menu_card">
 							<img src="img/springRoll.jpg" />
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 

@@ -27,6 +27,9 @@ class YWidget {
             }       
         }
     }
+    public function prepareData($data){
+        return $data;
+    }
     public function render($data = null, $return = false)
     {   
        
@@ -36,8 +39,8 @@ class YWidget {
             $output = $this->layout->render(array('content' => $output, ), true);     
         }
         else{
-            
-            $output = $this->renderInternal($data, true);
+            $preparedData = $this->prepareData($data);
+            $output = $this->renderInternal($preparedData, true);
          
         }
         if ($return){
