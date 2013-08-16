@@ -8,15 +8,12 @@
 </head>
 <body>
 <div class="fixed_navigation">
-	<div class="wrapper">
-		<nav class="headerNav">
-			<ul>
-				<li><a href="">Home</a></li>  
-				<li><a href="">About</a></li>  
-				<li><a href="">Portfolio</a></li>  
-			</ul>
-		</nav>
-	</div>
+    <nav class="headerNav">
+            <?php $list = new ListItemWidget(array(Language::$RESTAURANTS => '',
+                                                   Language::$ABOUT => 'about'));
+                $list->render();
+                ?>
+    </nav>	
 </div>
 <div class="wrapper content">
     <?php echo $content ?>

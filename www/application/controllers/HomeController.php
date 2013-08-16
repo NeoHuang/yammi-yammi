@@ -15,11 +15,11 @@ class HomeController extends YController {
     public function actionIndex($queryString)
     {
         
-        $db = YBootstrap::getApplication()->getDb();
-        $user = new UserModel();
-        $user->load(6);
+      //  $db = YBootstrap::getApplication()->getDb();
+      //  $user = new UserModel();
+      //  $user->load(6);
        // $ret = $user->insert();
-        $this->render('HomeView', 'MainLayout', array('test'=>"userid = $user->name"));
+        $this->render('HomeView', 'MainLayout');
 		
     }
     

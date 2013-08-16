@@ -7,5 +7,8 @@
  */
 class Language{
     public static $MSG_404 = '404 Not Found'; 
+    public static $RESTAURANTS = 'Restaurants';
+    public static $ABOUT       = 'About';
+    public static $FOOD    = 'Food';
 }
 ?>

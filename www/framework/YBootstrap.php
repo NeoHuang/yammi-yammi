@@ -20,11 +20,15 @@ function __autoload($className) {
     if (file_exists(ROOT . DS . 'framework' . DS . $className . '.php')){
         require_once(ROOT . DS . 'framework' . DS . $className . '.php');
     }else{
-        if (file_exists(ROOT . DS . Config::$application_folder . DS . 'controllers' . DS . $className . '.php')) {
-            require_once(ROOT . DS . Config::$application_folder . DS . 'controllers' . DS . $className . '.php');
-        } else if (file_exists(ROOT . DS . Config::$application_folder . DS . 'models' . DS . $className . '.php')) {
-            require_once(ROOT . DS . Config::$application_folder . DS . 'models' . DS . $className . '.php');
-        } else {         
+        $found = false;
+        foreach (Config::$auto_folders as $subfolder){
+             if (file_exists(ROOT . DS . Config::$application_folder . DS . $subfolder . DS . $className . '.php')){
+                 $found = true;
+                 require_once(ROOT . DS . Config::$application_folder . DS . $subfolder . DS . $className . '.php');
+                 break;
+             }
+        }
+        if (!$found) {         
             YHelper::internalError($className. ' Not Found');   
             
         }
