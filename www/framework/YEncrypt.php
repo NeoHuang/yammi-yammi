@@ -11,10 +11,12 @@
  * @author root
  */
 class YEncrypt {
+
     //put your code here
-    function encrypt($string){
+    static function encrypt($string) {
         return md5($string);
     }
+
 }
 
 ?>
