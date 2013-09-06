@@ -35,26 +35,11 @@ class UserModel extends YModel {
         return parent::insert();
     }
 
-    function login($name, $password) {
-        if (!is_null($this->db) && $this->db->isReady()) {
-            if (array_key_exists('id', $this->tableMap)) {
-                $this->db->select($this->getTableName(), array($this->tableMap['id'] => $id));
-                $ret = $this->db->query();
-                if ($ret > 0) {
-                    $obj = $this->db->lastResult[0];
-                    foreach ($this->tableMap as $m => $f) {
-                        $this->$m = $obj->$f;
-                    }
-                }
-            }
-        }
-    }
-
     function loadByName($name) {
         if (!is_null($this->db) && $this->db->isReady()) {
             
-            $this->select()->where(array($this->tableMap['name'] => $name));
-            $ret = $this->db->query();
+            $this->selectAll()->where(array($this->tableMap['name'] => $name));
+            $ret = $this->db->query($this->sqlBuilder->getQuery());
             if ($ret > 0) {
                 $obj = $this->db->lastResult[0];
                 foreach ($this->tableMap as $m => $f) {
@@ -67,8 +52,8 @@ class UserModel extends YModel {
 
     function loadByEmail($email) {
         if (!is_null($this->db) && $this->db->isReady()) {      
-            $this->db->select($this->getTableName())->where(array($this->tableMap['email'] => $email));
-            $ret = $this->db->query();
+            $this->selectAll()->where(array($this->tableMap['email'] => $email));
+            $ret = $this->db->query($this->sqlBuilder->getQuery());
             if ($ret > 0) {
                 $obj = $this->db->lastResult[0];
                 foreach ($this->tableMap as $m => $f) {
@@ -80,7 +65,7 @@ class UserModel extends YModel {
     }
     function userNameExists($userName){
         if (!is_null($this->db) && $this->db->isReady()){
-            $this->db->select($this->getTableName())->where(array($this->tableMap['name'] => $userName));
+            $this->selectAll()->where(array($this->tableMap['name'] => $userName));
             $result = $this->search();
             if (count($result) > 0){
                 return true;

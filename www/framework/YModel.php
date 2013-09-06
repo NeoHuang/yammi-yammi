@@ -7,6 +7,7 @@ class YModel {
     public $tableMap;
     protected $hasOne = null;
     protected $hasMore = null;
+    protected $sqlBuilder;
 
     function getTableName() {
         return Config::$table_prefix . $this->tableName;
@@ -14,6 +15,15 @@ class YModel {
 
     function __construct() {
         $this->db = YBootstrap::getApplication()->getDb();
+        $this->sqlBuilder = new YSQLBuilder();
+    }
+    function getAlias(){
+        $ret = array();
+        $prefix = get_class($this) . '_';
+        foreach ($tableMap as $mem=>$field){
+            $ret[$field] = $prefix . $mem;
+        }
+        return $ret;
     }
 
     function insert() {
@@ -22,8 +32,8 @@ class YModel {
             foreach ($this->tableMap as $m => $f) {
                 $queryTable[$f] = $this->$m;
             }
-            $this->db->insert($this->getTableName(), $queryTable);
-            return $this->db->query();
+            $this->sqlBuilder->insert($this->getTableName(), $queryTable);
+            return $this->db->query($this->sqlBuilder->getQuery());
         }
         return null;
     }
@@ -31,9 +41,10 @@ class YModel {
     function load($id) {
         if (!is_null($this->db) && $this->db->isReady()) {
             if (array_key_exists('id', $this->tableMap)) {
-                $this->db->select($this->getTableName())->
-                        where(array($this->tableMap['id'] => $id));
-                $ret = $this->db->query();
+                $this->sqlBuilder->select()
+                         ->from($this->getTableName())
+                         ->where(array($this->tableMap['id'] => $id));
+                $ret = $this->db->query($this->sqlBuilder->getQuery());
                 if ($ret > 0) {
                     $obj = $this->db->lastResult[0];
                     foreach ($this->tableMap as $m => $f) {
@@ -43,24 +54,28 @@ class YModel {
             }
         }
     }
-    function select(){
-        $this->db->select($this->getTableName());
-        return $this->db;
+    function selectAll(){
+        $this->sqlBuilder->select()
+                 ->from($this->getTableName());
+        return $this->sqlBuilder;
     }
     function search(){  
-        if (!is_null($this->db) && $this->db->isReady() && $this->db->isSelectQuery()){           
-            $ret = $this->db->query();
+        if (!is_null($this->db) && $this->db->isReady() && $this->sqlBuilder->isSelectQuery()){           
+            $ret = $this->db->query($this->sqlBuilder->getQuery());
             $result = array();
-            $i = 0;
-            foreach($this->db->lastResult as $row){
-                $className = get_class($this);
-                $result[$i] = new $className();
-                 foreach ($this->tableMap as $m => $f) {
-                        $result[$i]->$m = $row->$f;
-                    }
-                $i++;
+            if ($ret > 0){              
+                $i = 0;
+                foreach($this->db->lastResult as $row){
+                    $className = get_class($this);
+                    $result[$i] = new $className();
+                     foreach ($this->tableMap as $m => $f) {
+                            $result[$i]->$m = $row->$f;
+                        }
+                    $i++;
+                }
+                return $result;
             }
-            return $result;
+            
         }
         else{
             return null;

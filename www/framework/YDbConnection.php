@@ -17,7 +17,6 @@ class YDbConnection {
     public $password;
     public $dbName;
     
-    public $preparedQuery;
     public $lastQuery = '';
     public $numQueries = 0;
     public $lastError;
@@ -53,7 +52,7 @@ class YDbConnection {
 
     function escape($string) {
         if ($this->ready) {
-            return $this->dbObj->real_escape_string($this->dbObj, $string);
+            return $this->dbObj->real_escape_string( $string);
         } else {
             return weakEscape($string);
         }
@@ -81,12 +80,14 @@ class YDbConnection {
                 mysql_free_result( $this->result );
     }
     
-    function query($query = null) {
+    function query($query) {
        
         if (!$this->ready)
             return false;
         if (!isset($query)){
-            $query = $this->preparedQuery;
+           // $query = $this->preparedQuery
+            die('empty query');
+            return false;
         }
         $return_val = 0;
         flush();
@@ -128,80 +129,7 @@ class YDbConnection {
         return $return_val;
     }
     
-    function insert($table, $data){
-        $query = 'INSERT INTO ' . $table . ' ';
-        $columns = '';
-        $values = '';
-        foreach ($data as $key => $value) {
-            if (!is_null($value)){
-                $columns .= "$key,";
-                $values  .= "'$value',";
-            }
-           
-        }
-        $columns = substr($columns, 0, -1);
-        $values = substr($values, 0, -1);
-        $query .= "($columns) VALUES ($values)";
-        $this->preparedQuery = $query;
-        return $this;
-    }
-    function select($table){
-        $this->preparedQuery = 'SELECT * FROM '. $table;
-        return $this;
-                
-    }
-    function where($whereData){
-        
-        if (is_array($whereData)){
-            $query = " WHERE ";
-            $numItems = count($whereData);
-            $i = 0;
-            foreach($whereData as $key=>$value){
-                $query .= "$key='" . $this->escape($value). "'";
-                if(++$i !== $numItems) {
-                $query .= " AND ";
-              }
-            }
-            
-            $this->preparedQuery .= $query;
-        }
-        return $this;
-    }
-    function limit($num){
-        $this->preparedQuery .= " LIMIT $num";
-        return $this;
-    }
-    function limitRange($off, $num){
-        $this->preparedQuery .= " LIMIT $off, $num";
-        return $this;
-    }
-    function orderBy($order, $desc = false){
-        $q = ' ORDER BY ';
-        if (is_array($order)){
-            $numItems = count($order);
-            $i = 0;
-            foreach ($order as $col ){
-                $q .= $col;
-                if(++$i !== $numItems) {
-                    $q .= ', ';
-                }
-            }
-        }
-        else{
-            $q .= $order;
-        }
-        if ($desc){
-            $q .= ' DESC';
-        }
-        $this->preparedQuery .=$q;
-        return $this;
-    }
-    function isSelectQuery(){
-        if (preg_match('/^\s*(select)\s/i', $this->preparedQuery))
-            return true;
-        else
-            return false;
-    }
+    
 }
 
 ?>
