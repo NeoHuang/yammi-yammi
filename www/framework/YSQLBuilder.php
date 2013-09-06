@@ -18,7 +18,8 @@ class YSQLBuilder {
         return $this->preparedQuery;
     }
     function flush(){
-        $hasWhere = false;
+        $this->hasWhere = false;
+        $this->preparedQuery = '';
     }
     function insert($table, $data){
         $this->flush();
