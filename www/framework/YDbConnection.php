@@ -91,7 +91,6 @@ class YDbConnection {
         $return_val = 0;
         flush();
         $this->last_query = $query;
-        echo $query;
         if (Config::$develop_environment)
         {
             $this->result = $this->dbObj->query($query);
@@ -129,7 +128,7 @@ class YDbConnection {
         return $return_val;
     }
     
-    function prepareInsertQuery($table, $data){
+    function insert($table, $data){
         $query = 'INSERT INTO ' . $table . ' ';
         $columns = '';
         $values = '';
@@ -144,12 +143,11 @@ class YDbConnection {
         $values = substr($values, 0, -1);
         $query .= "($columns) VALUES ($values)";
         $this->preparedQuery = $query;
-        return $query;
+        return $this;
     }
-    function prepareLoadOne($table, $whereData){
-        $query = 'SELECT * FROM '. $table . $this->where($whereData);
-        $this->preparedQuery = $query;
-        return $query;
+    function select($table){
+        $this->preparedQuery = 'SELECT * FROM '. $table;
+        return $this;
                 
     }
     function where($whereData){
@@ -159,17 +157,51 @@ class YDbConnection {
             $numItems = count($whereData);
             $i = 0;
             foreach($whereData as $key=>$value){
-                $query .= "$key='$value'";
+                $query .= "$key='" . $this->escape($value). "'";
                 if(++$i !== $numItems) {
                 $query .= " AND ";
               }
             }
             
-            return $query;
+            $this->preparedQuery .= $query;
         }
-        return '';
+        return $this;
     }
-
+    function limit($num){
+        $this->preparedQuery .= " LIMIT $num";
+        return $this;
+    }
+    function limitRange($off, $num){
+        $this->preparedQuery .= " LIMIT $off, $num";
+        return $this;
+    }
+    function orderBy($order, $desc = false){
+        $q = ' ORDER BY ';
+        if (is_array($order)){
+            $numItems = count($order);
+            $i = 0;
+            foreach ($order as $col ){
+                $q .= $col;
+                if(++$i !== $numItems) {
+                    $q .= ', ';
+                }
+            }
+        }
+        else{
+            $q .= $order;
+        }
+        if ($desc){
+            $q .= ' DESC';
+        }
+        $this->preparedQuery .=$q;
+        return $this;
+    }
+    function isSelectQuery(){
+        if (preg_match('/^\s*(select)\s/i', $this->preparedQuery))
+            return true;
+        else
+            return false;
+    }
 }
 
 ?>

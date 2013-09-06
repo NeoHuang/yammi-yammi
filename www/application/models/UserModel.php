@@ -22,7 +22,6 @@ class UserModel extends YModel {
         $this->tableMap = array('id' => 'user_id',
             'name' => 'user_name',
             'password' => 'user_password',
-            'nick' => 'user_nickname',
             'email' => 'user_email',
             'register' => 'user_registered',
             'activationKey' => 'user_activation_key',
@@ -39,7 +38,7 @@ class UserModel extends YModel {
     function login($name, $password) {
         if (!is_null($this->db) && $this->db->isReady()) {
             if (array_key_exists('id', $this->tableMap)) {
-                $this->db->prepareLoadOne($this->getTableName(), array($this->tableMap['id'] => $id));
+                $this->db->select($this->getTableName(), array($this->tableMap['id'] => $id));
                 $ret = $this->db->query();
                 if ($ret > 0) {
                     $obj = $this->db->lastResult[0];
@@ -53,34 +52,48 @@ class UserModel extends YModel {
 
     function loadByName($name) {
         if (!is_null($this->db) && $this->db->isReady()) {
-            if (array_key_exists('name', $this->tableMap)) {
-                $this->db->prepareLoadOne($this->getTableName(), array($this->tableMap['name'] => $name));
-                $ret = $this->db->query();
-                if ($ret > 0) {
-                    $obj = $this->db->lastResult[0];
-                    foreach ($this->tableMap as $m => $f) {
-                        $this->$m = $obj->$f;
-                    }
+            
+            $this->select()->where(array($this->tableMap['name'] => $name));
+            $ret = $this->db->query();
+            if ($ret > 0) {
+                $obj = $this->db->lastResult[0];
+                foreach ($this->tableMap as $m => $f) {
+                    $this->$m = $obj->$f;
                 }
             }
+           
         }
     }
 
     function loadByEmail($email) {
-        if (!is_null($this->db) && $this->db->isReady()) {
-            if (array_key_exists('email', $this->tableMap)) {
-                $this->db->prepareLoadOne($this->getTableName(), array($this->tableMap['email'] => $email));
-                $ret = $this->db->query();
-                if ($ret > 0) {
-                    $obj = $this->db->lastResult[0];
-                    foreach ($this->tableMap as $m => $f) {
-                        $this->$m = $obj->$f;
-                    }
+        if (!is_null($this->db) && $this->db->isReady()) {      
+            $this->db->select($this->getTableName())->where(array($this->tableMap['email'] => $email));
+            $ret = $this->db->query();
+            if ($ret > 0) {
+                $obj = $this->db->lastResult[0];
+                foreach ($this->tableMap as $m => $f) {
+                    $this->$m = $obj->$f;
                 }
             }
+            
         }
     }
-
+    function userNameExists($userName){
+        if (!is_null($this->db) && $this->db->isReady()){
+            $this->db->select($this->getTableName())->where(array($this->tableMap['name'] => $userName));
+            $result = $this->search();
+            if (count($result) > 0){
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        } 
+        else {
+            return null;
+        }
+    }
 }
 
 ?>

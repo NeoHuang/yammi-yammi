@@ -11,4 +11,10 @@ if (array_key_exists("user", $_SESSION)) {
     echo ' ';
     echo "<a href = '/Member/Logout'>Logout</a>";
 }
+$user = new UserModel();
+$user->name = 'NeoHuang';
+$user->password = '12345';
+$user->insert();
+var_dump($user->userNameExists('NeoHuang'));
+
 ?>
